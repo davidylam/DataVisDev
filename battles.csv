@@ -1,4 +1,4 @@
-name,year,battle_number,attacker_king,defender_king,attacker_1,attacker_2,attacker_3,attacker_4,defender_1,defender_2,defender_3,defender_4,attacker_outcome,battle_type,major_death,major_capture,attacker_size,defender_size,attacker_commander,defender_commander,summer,location,region,note
+name,year,battle_number,attacker_king,defender_king,source,attacker_2,attacker_3,attacker_4,target,defender_2,defender_3,defender_4,attacker_outcome,battle_type,major_death,major_capture,attacker_size,defender_size,attacker_commander,defender_commander,summer,location,region,note
 Battle of the Golden Tooth,298,1,Joffrey/Tommen Baratheon,Robb Stark,Lannister,,,,Tully,,,,win,pitched battle,1,0,15000,4000,Jaime Lannister,"Clement Piper, Vance",1,Golden Tooth,The Westerlands,
 Battle at the Mummer's Ford,298,2,Joffrey/Tommen Baratheon,Robb Stark,Lannister,,,,Baratheon,,,,win,ambush,1,0,,120,Gregor Clegane,Beric Dondarrion,1,Mummer's Ford,The Riverlands,
 Battle of Riverrun,298,3,Joffrey/Tommen Baratheon,Robb Stark,Lannister,,,,Tully,,,,win,pitched battle,0,1,15000,10000,"Jaime Lannister, Andros Brax","Edmure Tully, Tytos Blackwood",1,Riverrun,The Riverlands,
@@ -28,7 +28,6 @@ The Red Wedding,299,26,Joffrey/Tommen Baratheon,Robb Stark,Frey,Bolton,,,Stark,,
 Siege of Seagard,299,27,Robb Stark,Joffrey/Tommen Baratheon,Frey,,,,Mallister,,,,win,siege,0,1,,,Walder Frey,Jason Mallister,1,Seagard,The Riverlands,
 Battle of Castle Black,300,28,Stannis Baratheon,Mance Rayder,Free folk,Thenns,Giants,,Night's Watch,Baratheon,,,loss,siege,1,1,100000,1240,"Mance Rayder, Tormund Giantsbane, Harma Dogshead, Magnar Styr, Varamyr","Stannis Baratheon, Jon Snow, Donal Noye, Cotter Pyke",0,Castle Black,Beyond the Wall,
 Fall of Moat Cailin,300,29,Joffrey/Tommen Baratheon,Balon/Euron Greyjoy,Bolton,,,,Greyjoy,,,,win,siege,0,0,,,Ramsey Bolton,,0,Moat Cailin,The North,
-Sack of Saltpans,300,30,,,Brave Companions,,,,,,,,win,razing,0,0,,,Rorge,,0,Saltpans,The Riverlands,
 Retaking of Deepwood Motte,300,31,Stannis Baratheon,Balon/Euron Greyjoy,Baratheon,Karstark,Mormont,Glover,Greyjoy,,,,win,pitched battle,0,0,4500,200,"Stannis Baratheon, Alysane Mormot",Asha Greyjoy,0,Deepwood Motte,The North,
 Battle of the Shield Islands,300,32,Balon/Euron Greyjoy,Joffrey/Tommen Baratheon,Greyjoy,,,,Tyrell,,,,win,pitched battle,0,0,,,"Euron Greyjoy, Victarion Greyjoy",,0,Shield Islands,The Reach,
 "Invasion of Ryamsport, Vinetown, and Starfish Harbor",300,33,Balon/Euron Greyjoy,Joffrey/Tommen Baratheon,Greyjoy,,,,Tyrell,,,,win,razing,0,0,,,"Euron Greyjoy, Victarion Greyjoy",,0,"Ryamsport, Vinetown, Starfish Harbor",The Reach,
