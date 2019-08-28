@@ -10,10 +10,12 @@
 
 <p>Hello World</p>
 <script>
+var svg;
+var data;
 var init = function (){
 	var w = 800;
 	var h = 450;
-	var data = [132, 46, 87, 78, 49, 98, 337, 344, 233, 124, 450, 488,544];
+	data = [132, 46, 87, 78, 49, 98, 337, 344, 233, 124, 450, 488,744];
 	var x = d3.scale.linear()
 			.domain([0, d3.max(data)])
 			.range([0, w])
@@ -24,7 +26,7 @@ var init = function (){
 			.range([0, h])
 			;		
 
-	var svg = d3.select("body").append("svg")
+	svg = d3.select("body").append("svg")
 			.attr("id", "chart")
 			.attr("width", w)
 			.attr("height", h)
