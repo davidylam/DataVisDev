@@ -25,3 +25,10 @@ body,html{
 	stroke: #000;
 	shape-rendering: crispEdges;
 }
+
+.gridline path,
+.gridline line{
+	fill: none;
+	stroke: #ccc;
+	shape-rendering: crispEdges;
+}
