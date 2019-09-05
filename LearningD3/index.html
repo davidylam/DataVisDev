@@ -68,81 +68,148 @@ var svg = d3.select("body").append("svg")
 var chart = svg.append("g")
 			.classed("display", true)
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var controls = d3.select("body")
+				.append("div")
+				.attr("id", "controls")
+				;
+
+var sort_btn = controls.append("button")
+						.html("Sort data: ascending")
+						.attr("state", 0);
+
 function plot(params){
-	
+	x.domain(data.map(function(entry){
+		return entry.key;
+	}));
+	y.domain([0,d3.max(data,function(entry){
+		return entry.value;
+	})]);
+
 	this.append("g")
 		.call(params.gridlines)
 		.classed("gridline", true)
 		.attr("transform", "translate(0,0)")
-
+	//enter() 
 	this.selectAll(".bar")
 		.data(params.data)
 		.enter()
 			.append("rect")
-			.classed("bar", true)
-			.attr("x", function(d,i){
-				return x(d.key);
-			})
-			.attr("y", function(d,i){
-				return y(d.value);
-			})
-			.attr("height", function(d,i){
-				return height - y(d.value);
-			})
-			.attr("width", function(d){
-				return x.rangeBand();
-			})
-			.style("fill", function(d,i){
-				return ordinalColorScale(i);
-				//return linearColorScale(i);
-			})
-			;
+			.classed("bar", true);
+
 	this.selectAll(".bar-label")
 		.data(params.data)
 		.enter()
 			.append("text")
-			.classed("bar-label", true)
-			.attr("x", function(d){
-				return x(d.key) + (x.rangeBand()/2);
-			})
-			.attr("dx", -4)
-			.attr("y", function(d,i){
-				return y(d.value);
-			})
-			.attr("dy",-6)
-			.text(function(d){
-				return d.value;
-			})
-		this.append("g")
-			.classed("x axis", true)
-			.attr("transform", "translate(" + 0 + "," + height + ")")
-			.call(params.axis.x)
-				.selectAll("text")
-				.style("text-anchor", "end")
-				.attr("dx", -8)
-				.attr("dy", 8)
-				.attr("transform", "translate(0,0) rotate(-45)");
+			.classed("bar-label", true);
 
-		this.append("g")
-			.classed("y axis", true)
-			.attr("tranform", "translate(0,0)")
-			.call(params.axis.y);
-		this.select(".y.axis")
-			.append("text")
-			.attr("x", 0)
-			.attr("y", 0)
-			.style("text-anchor", "middle")
-			.attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
-			.text("Units sold");
+	//update
+	this.selectAll(".bar")
+		.attr("x", function(d,i){
+			return x(d.key);
+		})
+		.attr("y", function(d,i){
+			return y(d.value);
+		})
+		.attr("height", function(d,i){
+			return height - y(d.value);
+		})
+		.attr("width", function(d){
+			return x.rangeBand();
+		})
+		.style("fill", function(d,i){
+			return ordinalColorScale(i);
+			//return linearColorScale(i);
+		})
+		;
 
-		this.select(".x.axis")
-			.append("text")
-			.attr("x", 0)
-			.attr("y", 0)
-			.style("text-anchor", "middle")
-			.attr("transform", "translate(" + width/2 + ",80)")
-			.text("Donut type " + new Date().toLocaleTimeString());
+	this.selectAll(".bar-label")
+		.attr("x", function(d){
+			return x(d.key) + (x.rangeBand()/2);
+		})
+		.attr("dx", -4)
+		.attr("y", function(d,i){
+			return y(d.value);
+		})
+		.attr("dy",-6)
+		.text(function(d){
+			return d.value;
+		})
+	this.append("g")
+		.classed("x axis", true)
+		.attr("transform", "translate(" + 0 + "," + height + ")")
+		.call(params.axis.x)
+			.selectAll("text")
+			.style("text-anchor", "end")
+			.attr("dx", -8)
+			.attr("dy", 8)
+			.attr("transform", "translate(0,0) rotate(-45)");
+	//exit()
+	this.selectAll(".bar")
+		.data(params.data)
+		.exit()
+		.remove();
+	
+	this.selectAll(".bar-label")
+		.data(params.data)
+		.exit()
+		.remove();
+
+	this.append("g")
+		.classed("y axis", true)
+		.attr("tranform", "translate(0,0)")
+		.call(params.axis.y);
+
+	this.select(".y.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "middle")
+		.attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
+		.text("Units sold");
+
+	this.select(".x.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "middle")
+		.attr("transform", "translate(" + width/2 + ",80)")
+		.text("Donut type " + new Date().toLocaleTimeString());
 }
+
+sort_btn.on("click", function(){
+	var self = d3.select(this);
+
+	var ascending = function(a,b){
+		return a.value - b.value;
+	}
+	var descending = function(a,b){
+		return b.value - a.value;
+	}
+	var state = +self.attr("state");
+	var txt = "Sort data: ";
+
+	if (state === 0){
+		data.sort(ascending);
+		state = 1;
+		txt += "descending";
+	} else if (state === 1){
+		data.sort(descending);
+		state = 0;
+		txt += "ascending";
+	}
+	self.attr("state", state);
+	self.html(txt);
+
+	plot.call(chart, {
+		data: data,
+		axis: {
+			x: xAxis,
+			y: yAxis
+		},
+		gridlines: yGridlines
+	});
+});
 plot.call(chart, {
 		data: data,
 		axis: {
