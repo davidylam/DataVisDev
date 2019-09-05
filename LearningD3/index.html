@@ -45,10 +45,6 @@ var y = d3.scale.linear()
 		})])
 		.range([height, 0]);
 
-var linearColorScale = d3.scale.linear()
-		.domain([0, data.length])		
-		.range(["#572500", "#F68026"])
-		;
 var ordinalColorScale = d3.scale.category20();
 var xAxis = d3.svg.axis()
 				.scale(x)
@@ -78,6 +74,64 @@ var sort_btn = controls.append("button")
 						.html("Sort data: ascending")
 						.attr("state", 0);
 
+
+function drawAxis(params){
+	if (params.initialize === true){
+		//Draw the gridlines and axies
+		//Draw the gridlines
+	
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+			
+		//This is the x axis
+		this.append("g")
+			.classed("x axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+				.selectAll("text")
+					.classed("x-axis-label", true)
+					.style("text-anchor", "end")
+					.attr("dx", -8)
+					.attr("dy", 8)
+					.attr("transform", "translate(0,0) rotate(-45)");
+
+		//This is the y axis
+		this.append("g")
+			.classed("y axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+
+		this.select(".y.axis")
+			.append("text")
+			.attr("x", 0)
+			.attr("y", 0)
+			.style("text-anchor", "middle")
+			.attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
+			.text("Units sold");
+
+		this.select(".x.axis")
+			.append("text")
+			.attr("x", 0)
+			.attr("y", 0)
+			.style("text-anchor", "middle")
+			.attr("transform", "translate(" + width/2 + ",80)")
+			.text("Donut type " + new Date().toLocaleTimeString());
+	} else if (params.initialize === false) {
+		//Update info
+		this.selectAll("g.x.axis")
+			.call(params.axis.x);
+		this.selectAll(".x-axis-label")
+			.style("text-anchor", "end")
+			.attr("dx", -8)
+			.attr("dy", 8)
+			.attr("transform", "translate(0,0) rotate(-45)");
+		this.selectAll("g.y.axis")
+			.call(params.axis.y);
+	}
+}
+
 function plot(params){
 	x.domain(data.map(function(entry){
 		return entry.key;
@@ -86,10 +140,8 @@ function plot(params){
 		return entry.value;
 	})]);
 
-	this.append("g")
-		.call(params.gridlines)
-		.classed("gridline", true)
-		.attr("transform", "translate(0,0)")
+	drawAxis.call(this, params);
+
 	//enter() 
 	this.selectAll(".bar")
 		.data(params.data)
@@ -135,15 +187,7 @@ function plot(params){
 		.text(function(d){
 			return d.value;
 		})
-	this.append("g")
-		.classed("x axis", true)
-		.attr("transform", "translate(" + 0 + "," + height + ")")
-		.call(params.axis.x)
-			.selectAll("text")
-			.style("text-anchor", "end")
-			.attr("dx", -8)
-			.attr("dy", 8)
-			.attr("transform", "translate(0,0) rotate(-45)");
+	
 	//exit()
 	this.selectAll(".bar")
 		.data(params.data)
@@ -154,27 +198,6 @@ function plot(params){
 		.data(params.data)
 		.exit()
 		.remove();
-
-	this.append("g")
-		.classed("y axis", true)
-		.attr("tranform", "translate(0,0)")
-		.call(params.axis.y);
-
-	this.select(".y.axis")
-		.append("text")
-		.attr("x", 0)
-		.attr("y", 0)
-		.style("text-anchor", "middle")
-		.attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
-		.text("Units sold");
-
-	this.select(".x.axis")
-		.append("text")
-		.attr("x", 0)
-		.attr("y", 0)
-		.style("text-anchor", "middle")
-		.attr("transform", "translate(" + width/2 + ",80)")
-		.text("Donut type " + new Date().toLocaleTimeString());
 }
 
 sort_btn.on("click", function(){
@@ -182,10 +205,10 @@ sort_btn.on("click", function(){
 
 	var ascending = function(a,b){
 		return a.value - b.value;
-	}
+	};
 	var descending = function(a,b){
 		return b.value - a.value;
-	}
+	};
 	var state = +self.attr("state");
 	var txt = "Sort data: ";
 
@@ -207,16 +230,21 @@ sort_btn.on("click", function(){
 			x: xAxis,
 			y: yAxis
 		},
-		gridlines: yGridlines
+		gridlines: yGridlines,
+		initialize: false
 	});
 });
+
+
+
 plot.call(chart, {
 		data: data,
 		axis: {
 			x: xAxis,
 			y: yAxis
 		},
-		gridlines: yGridlines
+		gridlines: yGridlines,
+		initialize: true
 	});
 </script>	
 </body>
