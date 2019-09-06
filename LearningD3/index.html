@@ -76,6 +76,7 @@ var sort_btn = controls.append("button")
 
 
 function drawAxis(params){
+	
 	if (params.initialize === true){
 		//Draw the gridlines and axies
 		//Draw the gridlines
@@ -155,13 +156,26 @@ function plot(params){
 		.data(params.data)
 		.enter()
 			.append("rect")
-			.classed("bar", true);
+			.classed("bar", true)
+			.on("mouseover", function(d,i){
+				console.log("over: ", d,i);
+				d3.select(this).style("fill", "yellow");
+			})
+			.on("mousemove", function(d,i){
+
+			})
+			.on("mouseout", function(d,i){
+				d3.select(this).style("fill", ordinalColorScale(i));
+			})
+			;
 
 	this.selectAll(".bar-label")
 		.data(params.data)
 		.enter()
 			.append("text")
-			.classed("bar-label", true);
+			.classed("bar-label", true)
+			
+			;
 
 	//update
 	this.selectAll(".bar")
